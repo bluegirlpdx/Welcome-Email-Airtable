@@ -351,7 +351,7 @@ body {
     @staticmethod
     def _determine_text_tag(element) -> str:
         """Determine appropriate HTML tag based on font size"""
-        font_size = element.styling.get('font_size', 16)
+        font_size = element.styling.get('font_size') or 16
 
         if font_size >= 32:
             return 'h1'
