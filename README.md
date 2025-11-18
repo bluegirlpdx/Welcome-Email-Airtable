@@ -12,9 +12,12 @@ This tool allows you to:
 ## Features
 
 - **PowerPoint Parsing**: Extracts content, images, text, and layout from PowerPoint slides
+- **Smart Font Mapping**: Automatically maps Canva/PowerPoint fonts to Google Fonts or web-safe alternatives
+- **Font Inspector**: Analyze fonts in your PowerPoint to see what's detected and how they'll be mapped
 - **Layout Detection**: Analyzes slide layouts and converts them to responsive Webflow sections
 - **Image Extraction**: Automatically extracts and organizes images from slides
 - **Text Preservation**: Maintains text content, fonts, colors, and styling
+- **Google Fonts Integration**: Automatically imports needed Google Fonts with proper weights
 - **Webflow-Ready Output**: Generates clean HTML/CSS compatible with Webflow
 - **Section-Based Structure**: Each PowerPoint slide becomes a Webflow section
 
@@ -84,16 +87,19 @@ python canva_to_webflow.py your-canva-design.pptx -o webflow-site
 This will create:
 ```
 webflow-site/
-├── index.html          # Main HTML file with all sections
-├── styles.css          # Compiled CSS styles
-├── sections/           # Individual section HTML files
+├── index.html               # Main HTML file with all sections
+├── styles.css               # Compiled CSS styles with Google Fonts
+├── sections/                # Individual section HTML files
 │   ├── section-1.html
 │   ├── section-2.html
 │   └── ...
-├── images/             # Extracted images
+├── images/                  # Extracted images
 │   ├── slide-1-img-1.png
 │   └── ...
-└── webflow-import.zip  # Ready-to-import Webflow package
+├── font_report.txt          # Font usage and mapping report
+├── fonts_used.json          # Machine-readable font data
+├── conversion_summary.txt   # Complete conversion summary
+└── webflow-import.zip       # Ready-to-import Webflow package
 ```
 
 ### Step 3: Import to Webflow
@@ -103,6 +109,55 @@ webflow-site/
 3. Use the generated HTML/CSS in custom code sections
 4. Upload images to Webflow assets
 5. Adjust responsive breakpoints as needed
+
+## Font Handling
+
+### Inspecting Fonts Before Conversion
+
+To see what fonts are in your PowerPoint file:
+
+```bash
+python font_inspector.py your-canva-design.pptx
+```
+
+This shows:
+- All fonts detected
+- How many times each is used
+- Font sizes and colors
+- Automatic mappings to Google Fonts
+- Suggestions for unmapped fonts
+
+**Export detailed font data:**
+```bash
+python font_inspector.py your-canva-design.pptx --export --mappings
+```
+
+Creates:
+- `detected_fonts.json` - Complete font analysis
+- `font_mappings_custom.json` - Template for custom mappings
+
+### How Font Mapping Works
+
+1. **Automatic Mapping**: Common fonts (Montserrat, Poppins, Roboto, etc.) are automatically mapped to Google Fonts
+2. **Google Fonts Import**: The tool automatically generates the @import statement for all needed fonts
+3. **Web-Safe Fallbacks**: Unmapped fonts fall back to web-safe alternatives
+4. **Font Report**: Every conversion generates a `font_report.txt` showing what fonts were used and how they were mapped
+
+### Handling Canva Custom Fonts
+
+If Canva fonts aren't mapping correctly:
+
+1. **Run the font inspector** to see what PowerPoint detected
+2. **Check `font_report.txt`** in the output directory
+3. **For unmapped fonts**: Edit `font_mappings_custom.json` to map to similar Google Fonts
+4. **Upload to Webflow**: For truly custom fonts, you'll need to manually upload them to your Webflow project
+
+### Font Output Files
+
+After conversion, check:
+- `output/styles.css` - Google Fonts @import at the top
+- `output/font_report.txt` - Detailed font usage report
+- `output/fonts_used.json` - Machine-readable font data
 
 ## How It Works
 

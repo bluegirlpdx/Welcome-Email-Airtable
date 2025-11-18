@@ -15,6 +15,16 @@ pip install -r requirements.txt
 3. Select **Microsoft PowerPoint (.pptx)**
 4. Save the file to your computer
 
+## Step 2.5: (Optional) Inspect Fonts
+
+Before converting, check what fonts will be used:
+
+```bash
+python font_inspector.py your-canva-design.pptx
+```
+
+This shows which fonts are detected and how they'll be mapped to Google Fonts or web-safe alternatives.
+
 ## Step 3: Run the Converter
 
 ```bash

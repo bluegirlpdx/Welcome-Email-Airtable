@@ -8,6 +8,7 @@ import json
 import zipfile
 from typing import List, Dict, Any
 from pptx_extractor import SlideData
+from font_mapper import FontMapper
 
 
 class WebflowGenerator:
@@ -27,6 +28,9 @@ class WebflowGenerator:
         # CSS accumulator
         self.css_rules = []
         self.global_styles = []
+
+        # Font mapper
+        self.font_mapper = FontMapper()
 
     def generate_all(self):
         """Generate all HTML and CSS files"""
@@ -60,12 +64,24 @@ class WebflowGenerator:
         with open(css_file, 'w', encoding='utf-8') as f:
             f.write(css_content)
 
+        # Generate font report
+        font_report = self.font_mapper.get_font_report()
+        font_report_file = os.path.join(self.output_dir, "font_report.txt")
+        with open(font_report_file, 'w', encoding='utf-8') as f:
+            f.write(font_report)
+
+        # Export font configuration
+        self.font_mapper.export_font_config(
+            os.path.join(self.output_dir, "fonts_used.json")
+        )
+
         # Generate Webflow export package
         self.generate_webflow_package()
 
         print(f"\n✓ Generated {len(self.slides_data)} sections")
         print(f"✓ Main HTML: {main_file}")
         print(f"✓ Styles: {css_file}")
+        print(f"✓ Font report: {font_report_file}")
 
     def generate_section(self, slide: SlideData) -> tuple:
         """Generate HTML and CSS for a single section"""
@@ -173,7 +189,9 @@ class WebflowGenerator:
         # Type-specific styles
         if element.type == 'text':
             if element.styling.get('font_family'):
-                styles['font-family'] = f'"{element.styling["font_family"]}", sans-serif'
+                # Map font using font mapper
+                font_mapping = self.font_mapper.map_font(element.styling["font_family"])
+                styles['font-family'] = font_mapping['css_family']
             if element.styling.get('font_size'):
                 styles['font-size'] = f'{element.styling["font_size"]}px'
             if element.styling.get('color'):
@@ -212,6 +230,11 @@ class WebflowGenerator:
     def generate_css(self) -> str:
         """Generate complete CSS file"""
         css_parts = []
+
+        # Add Google Fonts import (if any fonts are needed)
+        font_import = self.font_mapper.generate_font_face_css()
+        if font_import:
+            css_parts.append(font_import)
 
         # Add reset and base styles
         css_parts.append("""/* CSS Reset and Base Styles */
