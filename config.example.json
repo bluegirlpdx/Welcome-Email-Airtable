@@ -1,0 +1,48 @@
+{
+  "converter_settings": {
+    "section_prefix": "section",
+    "responsive": true,
+    "extract_images": true,
+    "preserve_fonts": true,
+    "webflow_export": true
+  },
+  "output_settings": {
+    "output_dir": "./output",
+    "create_zip": true,
+    "create_summary": true
+  },
+  "responsive_breakpoints": {
+    "desktop": 1200,
+    "tablet": 991,
+    "mobile": 767
+  },
+  "css_settings": {
+    "minify": false,
+    "use_css_variables": false,
+    "include_reset": true
+  },
+  "image_settings": {
+    "format": "original",
+    "max_width": 2400,
+    "quality": 85,
+    "optimize": false
+  },
+  "webflow_settings": {
+    "use_webflow_classes": true,
+    "container_max_width": "1200px",
+    "section_padding": "60px 20px"
+  },
+  "font_settings": {
+    "fallback_fonts": [
+      "-apple-system",
+      "BlinkMacSystemFont",
+      "Segoe UI",
+      "Roboto",
+      "Oxygen",
+      "Ubuntu",
+      "Cantarell",
+      "sans-serif"
+    ],
+    "preserve_custom_fonts": true
+  }
+}

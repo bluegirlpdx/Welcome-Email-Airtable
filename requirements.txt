@@ -1,0 +1,18 @@
+# Canva to Webflow Converter - Python Dependencies
+
+# PowerPoint processing
+python-pptx>=0.6.21
+
+# Image processing
+Pillow>=10.0.0
+
+# Optional: For advanced image optimization
+# pillow-heif>=0.10.0
+
+# Optional: For PDF export support
+# reportlab>=4.0.0
+
+# Development dependencies (optional)
+# pytest>=7.4.0
+# black>=23.0.0
+# flake8>=6.0.0
