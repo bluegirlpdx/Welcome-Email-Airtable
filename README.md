@@ -1,53 +1,61 @@
-# FLOWLab⁵ Welcome Email Template
+# FLOWLab⁵ Welcome Email Template for Airtable
 
-This repository contains the HTML email template for welcoming new members to FLOWLab⁵.
+This repository contains the email template for welcoming new members to FLOWLab⁵, formatted for Airtable's Markdown/HTML hybrid system.
 
 ## Files
 
-- `email-template.html` - Clean, formatted HTML email template for Airtable automation
+- **`airtable-email-template.txt`** - The working template (Markdown + HTML for Airtable)
+- `email-template.html` - Pure HTML version (not for Airtable, ignore this)
 
 ## How to Use in Airtable
 
-### Method 1: Copy the entire template
-1. Open `email-template.html`
+1. Open `airtable-email-template.txt`
 2. Copy the entire contents
-3. In your Airtable automation, paste into the email body field
-4. Make sure your email action is set to send HTML emails
+3. Paste into your Airtable automation email body
+4. Replace `{tier}` with your Airtable field reference (e.g., insert the actual field)
 
-### Method 2: Use Airtable's rich text editor
-1. Open `email-template.html`
-2. Copy the HTML code
-3. In Airtable, switch the email body to "HTML mode" or "Code view"
-4. Paste the template
+## What Was Fixed
 
-## Dynamic Fields
+### The Problem
+Your original code had Markdown links **outside** of styled `<span>` tags:
+```
+</span> [Contact us here.](mailto:info@flowlab5.org)
+```
+This caused links to render at the default font size instead of inheriting your styled size.
 
-The template includes a `{tier}` placeholder where you can insert the member's tier:
-- In Airtable, replace `{tier}` with your dynamic field reference
-- Example: Replace `{tier}` with something like `{{Tier}}` or your actual field name
+### The Solution
+Now all Markdown is **inside** the span tags:
+```
+<span style="font-size: 18px; ...">Please visit the [Onboarding hub](url) here.</span>
+```
+The Markdown links now inherit the 18px font size from the enclosing span!
 
-## Key Features
+### Other Improvements
+- ✅ Consistent font sizes: 20px greeting, 18px body, 16px mission
+- ✅ Fixed "Montserrat medium" to use `font-weight: 600` (proper CSS)
+- ✅ Removed extra spaces and inconsistent span breaks
+- ✅ Cleaned up line breaks
+- ✅ Each paragraph is one complete span (easier to maintain)
 
-- **Consistent font sizing**: 18px body text, 20px greeting, 16px mission statement
-- **Proper hyperlinks**: All links maintain consistent font size
-- **Brand colors**:
-  - Primary purple: `#3D2CAF`
-  - Text: `#120935`
-- **Clean structure**: Properly formatted HTML with semantic elements
+## Airtable's Markdown/HTML Format
 
-## Customization
+Airtable supports a hybrid of Markdown and HTML:
+- **Markdown**: `**bold**`, `_italics_`, `[links](url)`
+- **HTML**: `<span>`, `<br>`, inline styles
+- **You can mix them!** Put Markdown inside HTML tags
 
-To modify the template:
-1. Edit `email-template.html`
-2. Keep font sizes consistent (18px for body text)
-3. Use the same color codes for brand consistency
-4. Always include `font-size` in link styles to prevent shrinking
+## Brand Colors
 
-## Colors Used
+- **Purple (brand)**: `#3D2CAF` - Headings, mission statement
+- **Dark blue (text)**: `#120935` - Body text
+- **Font**: Montserrat, sans-serif
 
-- **Purple (brand)**: `#3D2CAF` - Used for headings, links, and emphasis
-- **Dark blue (text)**: `#120935` - Primary text color
-- **Font**: Montserrat (falls back to sans-serif)
+## Tips
+
+1. Keep Markdown **inside** `<span>` tags so links inherit font size
+2. Use `font-weight: 600` instead of "Montserrat medium"
+3. Use consistent font sizes (18px for body text)
+4. Each paragraph = one complete span tag
 
 ## Support
 
